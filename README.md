@@ -17,7 +17,7 @@ The goal is to find the kidnapped vehichle's new location based on map of the lo
 
 ## Results: <a name="results"></a>
 
-Below image shows the final result of the project. However, performance criteria,  completing less than 100 seconds, not met due to poor graphic perfromance. Discussion forums state that this issue has been seen and it is recommended to move forward with the submission.
+Below image shows the final result of the project. However, performance criteria,  completing less than 100 seconds, is not met due to poor system or graphics performance, my environment is on windows 10 with Ubuntu Bash running the application. Further investigation led me to following discussions. Although my error parameters are inline.
 
 https://discussions.udacity.com/t/you-ran-out-of-time-when-running-with-the-simulator/269900/19
 https://discussions.udacity.com/t/you-ran-out-of-time-error-what-to-do/319164
