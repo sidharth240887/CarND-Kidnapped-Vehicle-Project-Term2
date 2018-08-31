@@ -1,15 +1,31 @@
-# Overview
-This repository contains all the code needed to complete the final project for the Localization course in Udacity's Self-Driving Car Nanodegree.
 
-#### Submission
-All you will submit is your completed version of `particle_filter.cpp`, which is located in the `src` directory. You should probably do a `git pull` before submitting to verify that your project passes the most up-to-date version of the grading code (there are some parameters in `src/main.cpp` which govern the requirements on accuracy and run time.)
+ Kidnapped Vehicle Project
 
-## Project Introduction
-Your robot has been kidnapped and transported to a new location! Luckily it has a map of this location, a (noisy) GPS estimate of its initial location, and lots of (noisy) sensor and control data.
+## Table Content: ##
+- [Objective](#objective)
+- [Results](#results)
+- [Running the Code](#runcode)
+- [Code](#code)
+- [Directory Structure](#structure)
+- [Particle Filter Input](#input)
+- [Success Criteria](#criteria)
+- [Localization Flow](#flow)
 
-In this project you will implement a 2 dimensional particle filter in C++. Your particle filter will be given a map and some initial localization information (analogous to what a GPS would provide). At each time step your filter will also get observation and control data.
+## Objective: <a name="objective"></a>
 
-## Running the Code
+The goal is to find the kidnapped vehichle's new location based on map of the location, an initial GPS estimate, sensor, and control data. In this project, 2 dimensional particle filter is implemented in C++. The particle filter will be given a map and some initial localization information (analogous to what a GPS would provide). At each time step your filter will also get observation and control data.
+
+
+## Results: <a name="results"></a>
+
+Below image shows the final result of the project. However, performance criteria,  completing less than 100 seconds, not met due to poor graphic perfromance. Discussion forums state that this issue has been seen and it is recommended to move forward with the submission.
+
+https://discussions.udacity.com/t/you-ran-out-of-time-when-running-with-the-simulator/269900/19
+https://discussions.udacity.com/t/you-ran-out-of-time-error-what-to-do/319164
+
+![](images/Results.png)
+
+## Running the Code <a name="runcode"></a>
 This project involves the Term 2 Simulator which can be downloaded [here](https://github.com/udacity/self-driving-car-sim/releases)
 
 This repository includes two files that can be used to set up and install uWebSocketIO for either Linux or Mac systems. For windows you can use either Docker, VMware, or even Windows 10 Bash on Ubuntu to install uWebSocketIO.
@@ -141,3 +157,26 @@ The things the grading code is looking for are:
 
 ## How to write a README
 A well written README file can enhance your project and portfolio.  Develop your abilities to create professional README files by completing [this free course](https://www.udacity.com/course/writing-readmes--ud777).
+
+
+## Localization Flow <a name="flow"></a>
+
+The iterative steps to use the particle filter algorithm to track the car position within a global map from a noisy GPS position are described as followed
+
+![](images/overview.png)
+
+1. Initialize the car position for all particles. If already initialized, predict the vehicle's next state plus all the particles from the previous data and estimated speed and yaw rate.
+2. Receive landmark observations data from the simulator.
+3. Update the particle weights and resample particles.
+4. Calculate and output the average weighted error of the particle filter over all time steps so far.
+
+
+In Step 1, beside initializing the car position, we also need to initialize the particles around the GPS-identified position with a predefined Gaussian distribution for x, y positions and orientation. Once initialized, we predict the next position of our car and the particles using time, velocity and yaw rate. Remember to check if the yaw rate is too small to avoid Number Overflow.
+
+For Step 3, let's look at how particles, acting as satellites around the car, evolves to estimate the locations of surrounding landmarks.
+
+![](images/particles.png)
+
+First, in order to relate particles to the global map, one needs to transform the particle positions observed by the car into particle positions in the global map. This can be done with coordinate transformation and rotation. Second, we want to know which landmark a particular particle is observing by finding the shortest distance from all landmarks to the particle. Certainly, if we know the sensor range of our car, we can narrow down the search to only localized landmarks near the car. Third, we want to ask ourselves, how much we can trust each particle. The weightage is done by comparing how close each particle can estimate its landmarks.
+
+Now, another important thing we need to do in Step 4 is resampling particles based on their weights. This means we resample with replacement based on the particle weights. Accurate particles will survive and inaccurate ones will be removed. So the number of particles still stay the same, but their positions will scatter off due to the Gaussian error we introduce in every prediction step in Step 1.
