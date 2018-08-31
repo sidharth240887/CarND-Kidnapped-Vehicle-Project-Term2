@@ -5,7 +5,6 @@
 - [Objective](#objective)
 - [Results](#results)
 - [Running the Code](#runcode)
-- [Code](#code)
 - [Directory Structure](#structure)
 - [Particle Filter Input](#input)
 - [Success Criteria](#criteria)
@@ -104,7 +103,7 @@ Your job is to build out the methods in `particle_filter.cpp` until the simulato
 Success! Your particle filter passed!
 ```
 
-# Implementing the Particle Filter
+## Directory Structure  <a name="structure"></a>
 The directory structure of this repository is as follows:
 
 ```
@@ -132,7 +131,7 @@ The only file you should modify is `particle_filter.cpp` in the `src` directory.
 
 If you are interested, take a look at `src/main.cpp` as well. This file contains the code that will actually be running your particle filter and calling the associated methods.
 
-## Inputs to the Particle Filter
+## Inputs to the Particle Filter <a name="input"></a>
 You can find the inputs to the particle filter in the `data` directory.
 
 #### The Map*
@@ -145,7 +144,7 @@ You can find the inputs to the particle filter in the `data` directory.
 
 > * Map data provided by 3D Mapping Solutions GmbH.
 
-## Success Criteria
+## Success Criteria <a name="criteria"></a>
 If your particle filter passes the current grading code in the simulator (you can make sure you have the current version at any time by doing a `git pull`), then you should pass!
 
 The things the grading code is looking for are:
@@ -155,28 +154,14 @@ The things the grading code is looking for are:
 
 2. **Performance**: your particle filter should complete execution within the time of 100 seconds.
 
-## How to write a README
-A well written README file can enhance your project and portfolio.  Develop your abilities to create professional README files by completing [this free course](https://www.udacity.com/course/writing-readmes--ud777).
-
 
 ## Localization Flow <a name="flow"></a>
 
 The iterative steps to use the particle filter algorithm to track the car position within a global map from a noisy GPS position are described as followed
 
-![](images/overview.png)
 
 1. Initialize the car position for all particles. If already initialized, predict the vehicle's next state plus all the particles from the previous data and estimated speed and yaw rate.
 2. Receive landmark observations data from the simulator.
 3. Update the particle weights and resample particles.
 4. Calculate and output the average weighted error of the particle filter over all time steps so far.
 
-
-In Step 1, beside initializing the car position, we also need to initialize the particles around the GPS-identified position with a predefined Gaussian distribution for x, y positions and orientation. Once initialized, we predict the next position of our car and the particles using time, velocity and yaw rate. Remember to check if the yaw rate is too small to avoid Number Overflow.
-
-For Step 3, let's look at how particles, acting as satellites around the car, evolves to estimate the locations of surrounding landmarks.
-
-![](images/particles.png)
-
-First, in order to relate particles to the global map, one needs to transform the particle positions observed by the car into particle positions in the global map. This can be done with coordinate transformation and rotation. Second, we want to know which landmark a particular particle is observing by finding the shortest distance from all landmarks to the particle. Certainly, if we know the sensor range of our car, we can narrow down the search to only localized landmarks near the car. Third, we want to ask ourselves, how much we can trust each particle. The weightage is done by comparing how close each particle can estimate its landmarks.
-
-Now, another important thing we need to do in Step 4 is resampling particles based on their weights. This means we resample with replacement based on the particle weights. Accurate particles will survive and inaccurate ones will be removed. So the number of particles still stay the same, but their positions will scatter off due to the Gaussian error we introduce in every prediction step in Step 1.
