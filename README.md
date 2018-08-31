@@ -23,7 +23,7 @@ Below image shows the final result of the project. However, performance criteria
 https://discussions.udacity.com/t/you-ran-out-of-time-when-running-with-the-simulator/269900/19
 https://discussions.udacity.com/t/you-ran-out-of-time-error-what-to-do/319164
 
-![](images/Results.png)
+![](images/Results.PNG)
 
 ## Running the Code <a name="runcode"></a>
 This project involves the Term 2 Simulator which can be downloaded [here](https://github.com/udacity/self-driving-car-sim/releases)
